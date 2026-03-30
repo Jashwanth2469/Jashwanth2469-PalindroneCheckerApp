@@ -1,20 +1,43 @@
+import java.util.*;
+
 public class PalindromeCheckerApp {
 
-    // Palindrome service class (encapsulated logic)
-    static class PalindromeChecker {
+    // Strategy Interface
+    interface PalindromeStrategy {
+        boolean check(String input);
+    }
 
-        // Method to check palindrome
-        public boolean checkPalindrome(String input) {
+    // Stack-based Strategy
+    static class StackStrategy implements PalindromeStrategy {
+        public boolean check(String input) {
+            Stack<Character> stack = new Stack<>();
 
-            int start = 0;
-            int end = input.length() - 1;
+            for (int i = 0; i < input.length(); i++) {
+                stack.push(input.charAt(i));
+            }
 
-            while (start < end) {
-                if (input.charAt(start) != input.charAt(end)) {
+            String reversed = "";
+            while (!stack.isEmpty()) {
+                reversed += stack.pop();
+            }
+
+            return input.equals(reversed);
+        }
+    }
+
+    // Deque-based Strategy
+    static class DequeStrategy implements PalindromeStrategy {
+        public boolean check(String input) {
+            Deque<Character> deque = new LinkedList<>();
+
+            for (int i = 0; i < input.length(); i++) {
+                deque.addLast(input.charAt(i));
+            }
+
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
                     return false;
                 }
-                start++;
-                end--;
             }
             return true;
         }
@@ -23,13 +46,16 @@ public class PalindromeCheckerApp {
     public static void main(String[] args) {
 
         // Hardcoded string
-        String input = "level";
+        String input = "madam";
 
-        // Create object of PalindromeChecker
-        PalindromeChecker checker = new PalindromeChecker();
+        // Choose strategy dynamically
+        PalindromeStrategy strategy;
 
-        // Call method
-        boolean result = checker.checkPalindrome(input);
+        // You can switch strategy here
+        strategy = new StackStrategy();
+        // strategy = new DequeStrategy();
+
+        boolean result = strategy.check(input);
 
         // Print result
         if (result) {
