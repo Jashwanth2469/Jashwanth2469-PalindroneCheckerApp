@@ -1,32 +1,39 @@
 public class PalindromeCheckerApp {
 
+    // Palindrome service class (encapsulated logic)
+    static class PalindromeChecker {
+
+        // Method to check palindrome
+        public boolean checkPalindrome(String input) {
+
+            int start = 0;
+            int end = input.length() - 1;
+
+            while (start < end) {
+                if (input.charAt(start) != input.charAt(end)) {
+                    return false;
+                }
+                start++;
+                end--;
+            }
+            return true;
+        }
+    }
+
     public static void main(String[] args) {
 
-        // Original string with spaces and mixed case
-        String input = "A man a plan a canal Panama";
+        // Hardcoded string
+        String input = "level";
 
-        // Step 1: Normalize string
-        // Remove spaces and convert to lowercase
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+        // Create object of PalindromeChecker
+        PalindromeChecker checker = new PalindromeChecker();
 
-        // Step 2: Check palindrome using two-pointer technique
-        int start = 0;
-        int end = normalized.length() - 1;
-
-        boolean isPalindrome = true;
-
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
-            }
-            start++;
-            end--;
-        }
+        // Call method
+        boolean result = checker.checkPalindrome(input);
 
         // Print result
-        if (isPalindrome) {
-            System.out.println("The string \"" + input + "\" is a Palindrome (ignoring spaces and case).");
+        if (result) {
+            System.out.println("The string \"" + input + "\" is a Palindrome.");
         } else {
             System.out.println("The string \"" + input + "\" is NOT a Palindrome.");
         }
